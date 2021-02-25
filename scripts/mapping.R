@@ -3,11 +3,15 @@ library(dplyr)
 library(mongolite)
 
 source("scripts/id_gen.R")
+source("scripts/keys.R")
 
-my_key <- "AIzaSyDT7k0-QZ5BhWjvra0m1YvHCgUlKWjLyYY"
-register_google(key = my_key)
 
-places_d <- mongo(collection = "places", url = "mongodb+srv://rgraue:LoopDLoop@geoffcluster-3sd9t.azure.mongodb.net/")
+register_google(key = my_key())
+#print(login())
+
+#need a google api key and access to mongodb for access to up to date info.
+uri <- paste("mongodb+srv://" , login() , "@geoffcluster-3sd9t.azure.mongodb.net/", sep = "") 
+places_d <- mongo(collection = "places", url = uri )
 
 geo_address <- function (addy) {
   result <- geocode(addy)
